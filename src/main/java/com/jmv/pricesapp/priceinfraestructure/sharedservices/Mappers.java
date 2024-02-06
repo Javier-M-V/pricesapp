@@ -1,4 +1,4 @@
-package com.jmv.pricesapp.priceinfraestructure.shared;
+package com.jmv.pricesapp.priceinfraestructure.sharedservices;
 
 import java.util.List;
 import java.util.stream.Collectors;

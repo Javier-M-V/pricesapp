@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.jmv.pricesapp.domain.Price;
 
-
-
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -22,11 +20,11 @@ import java.util.Optional;
 @RestController
 public class PricesController {
 
-    private final PricesService pricesRetrieverService;
+    private final PricesService pricesService;
 
     @Autowired
-    public PricesController(PricesService pricesRetrieverService){
-        this.pricesRetrieverService = pricesRetrieverService;
+    public PricesController(PricesService pricesService){
+        this.pricesService = pricesService;
     }
 
     @GetMapping(value="prices")
@@ -35,8 +33,7 @@ public class PricesController {
                                          @RequestParam  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                              LocalDateTime dateRule){
 
-        Optional<Prices> prices = pricesRetrieverService.findByProductIdBrandIdAndDate(productId, brandId, dateRule);
-
+        Optional<Prices> prices = pricesService.findByProductIdBrandIdAndDate(productId, brandId, dateRule);
         return prices.map(this::map).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 

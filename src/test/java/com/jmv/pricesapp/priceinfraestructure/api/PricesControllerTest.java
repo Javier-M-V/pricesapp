@@ -1,28 +1,82 @@
 package com.jmv.pricesapp.priceinfraestructure.api;
 
 
+import com.jmv.pricesapp.domain.Price;
+import com.jmv.pricesapp.priceinfraestructure.PricesService;
+
+import com.jmv.pricesapp.priceinfraestructure.persistence.Prices;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.hamcrest.Matchers.containsString;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import org.springframework.test.web.servlet.MockMvc;
 
-@SpringBootTest
-@AutoConfigureMockMvc
+import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+
+@ExtendWith(MockitoExtension.class)
+@SuppressWarnings("ConstantConditions")
 public class PricesControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+
+    @InjectMocks
+    private PricesController pricesController;
+
+    @Mock
+    private  PricesService pricesService;
+
+    private static final LocalDateTime DAY_TEST= LocalDateTime.of(1997, Month.AUGUST,29,10,0,0);
+
+    static MockHttpServletRequest request = new MockHttpServletRequest();
+
+    @BeforeEach
+    void before(){
+        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
+    }
+
 
     @Test
-    void shouldReturnDefaultMessage() throws Exception {
-        this.mockMvc.perform(get("/prices?productId=35455&brandId=1&dateRule=2020-06-14T21:00:00.000")).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("Hello, World")));
+    void given_priceNotFoundOnService_controllerReturns_404(){
+
+        when(pricesService.findByProductIdBrandIdAndDate(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(Optional.empty());
+
+        ResponseEntity<Price> price = pricesController.prices(1L, 1L, LocalDateTime.now());
+
+        assertEquals(404, price.getStatusCode().value());
+    }
+
+    @Test
+    void given_priceFoundOnService_controllerReturnsPriceDomain(){
+
+        Prices pricesMock = new Prices();
+        pricesMock.setPriceId(1L);
+        pricesMock.setPrice(new BigDecimal("33.3"));
+        pricesMock.setCurr("EUR");
+        pricesMock.setBrandId(1L);
+        pricesMock.setStartDate(DAY_TEST);
+        pricesMock.setStartDate(DAY_TEST);
+        when(pricesService.findByProductIdBrandIdAndDate(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(Optional.of(pricesMock));
+
+        ResponseEntity<Price> price = pricesController.prices(1L, 1L, LocalDateTime.now());
+
+        assertEquals(200, price.getStatusCode().value());
+        assertInstanceOf(Price.class, price.getBody());
+        assertEquals(DAY_TEST, price.getBody().getStartDate());
     }
 }
