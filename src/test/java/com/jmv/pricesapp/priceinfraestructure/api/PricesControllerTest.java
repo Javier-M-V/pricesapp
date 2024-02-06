@@ -41,7 +41,9 @@ public class PricesControllerTest {
     @Mock
     private  PricesService pricesService;
 
-    private static final LocalDateTime DAY_TEST= LocalDateTime.of(1997, Month.AUGUST,29,10,0,0);
+    private static final LocalDateTime DAY_TEST_START = LocalDateTime.of(1997, Month.AUGUST,29,10,0,0);
+
+    private static final LocalDateTime DAY_TEST_END = LocalDateTime.of(1997, Month.AUGUST,29,11,0,0);
 
     static MockHttpServletRequest request = new MockHttpServletRequest();
 
@@ -56,27 +58,29 @@ public class PricesControllerTest {
 
         when(pricesService.findByProductIdBrandIdAndDate(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(Optional.empty());
 
-        ResponseEntity<Price> price = pricesController.prices(1L, 1L, LocalDateTime.now());
+        var price = pricesController.prices(1L, 1L, LocalDateTime.now());
 
         assertEquals(404, price.getStatusCode().value());
+        assertNull(price.getBody());
     }
 
     @Test
     void given_priceFoundOnService_controllerReturnsPriceDomain(){
 
-        Prices pricesMock = new Prices();
+        var pricesMock = new Prices();
         pricesMock.setPriceId(1L);
         pricesMock.setPrice(new BigDecimal("33.3"));
         pricesMock.setCurr("EUR");
         pricesMock.setBrandId(1L);
-        pricesMock.setStartDate(DAY_TEST);
-        pricesMock.setStartDate(DAY_TEST);
+        pricesMock.setStartDate(DAY_TEST_START);
+        pricesMock.setEndDate(DAY_TEST_END);
         when(pricesService.findByProductIdBrandIdAndDate(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(Optional.of(pricesMock));
 
         ResponseEntity<Price> price = pricesController.prices(1L, 1L, LocalDateTime.now());
 
         assertEquals(200, price.getStatusCode().value());
         assertInstanceOf(Price.class, price.getBody());
-        assertEquals(DAY_TEST, price.getBody().getStartDate());
+        assertEquals(DAY_TEST_START, price.getBody().getStartDate());
+        assertEquals(DAY_TEST_END, price.getBody().getEndDate());
     }
 }

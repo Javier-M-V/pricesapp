@@ -26,12 +26,14 @@ public class PricesAppApplicationIntegrationTest {
 
     private static String params;
 
+    private static ResponseEntity<Price> price;
+
     @Test
     void given_2020_06_14T10_00_000_api_returnsPriceId_1(){
 
         params = "productId=35455&brandId=1&dateRule=2020-06-14T10:00:00.000";
 
-        ResponseEntity<Price> price = restTemplate.getForEntity(BASE_URL+params, Price.class);
+        price = restTemplate.getForEntity(BASE_URL+params, Price.class);
 
         assertEquals(1,price.getBody().getPriceId());
         assertEquals(HttpStatus.OK, price.getStatusCode());
@@ -42,7 +44,7 @@ public class PricesAppApplicationIntegrationTest {
 
         params = "productId=35455&brandId=1&dateRule=2020-06-14T16:00:00.000";
 
-        ResponseEntity<Price> price = restTemplate.getForEntity(BASE_URL+params, Price.class);
+        price = restTemplate.getForEntity(BASE_URL+params, Price.class);
 
         assertEquals(2,price.getBody().getPriceId());
         assertEquals(HttpStatus.OK, price.getStatusCode());
@@ -53,7 +55,7 @@ public class PricesAppApplicationIntegrationTest {
 
         params = "productId=35455&brandId=1&dateRule=2020-06-14T21:00:00.000";
 
-        ResponseEntity<Price> price = restTemplate.getForEntity(BASE_URL+params, Price.class);
+        price = restTemplate.getForEntity(BASE_URL+params, Price.class);
 
         assertEquals(1,price.getBody().getPriceId());
         assertEquals(HttpStatus.OK, price.getStatusCode());
@@ -63,7 +65,7 @@ public class PricesAppApplicationIntegrationTest {
 
         params = "productId=35455&brandId=1&dateRule=2020-06-15T10:00:00.000";
 
-        ResponseEntity<Price> price = restTemplate.getForEntity(BASE_URL+params, Price.class);
+        price = restTemplate.getForEntity(BASE_URL+params, Price.class);
 
         assertEquals(3,price.getBody().getPriceId());
         assertEquals(HttpStatus.OK, price.getStatusCode());
@@ -74,7 +76,7 @@ public class PricesAppApplicationIntegrationTest {
 
         params = "productId=35455&brandId=1&dateRule=2020-06-16T21:00:00.000";
 
-        ResponseEntity<Price> price = restTemplate.getForEntity(BASE_URL+params, Price.class);
+        price = restTemplate.getForEntity(BASE_URL+params, Price.class);
 
         assertEquals(4,price.getBody().getPriceId());
         assertEquals(HttpStatus.OK, price.getStatusCode());

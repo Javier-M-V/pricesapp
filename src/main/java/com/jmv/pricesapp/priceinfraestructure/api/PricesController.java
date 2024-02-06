@@ -39,7 +39,7 @@ public class PricesController {
 
     private ResponseEntity<Price> map(Prices prices) {
 
-        Price priceDomain = new Price();
+        var priceDomain = new Price();
         priceDomain.setPriceId(prices.getPriceId());
         priceDomain.setProductId(prices.getProductId());
         priceDomain.setBrandId(prices.getBrandId());
