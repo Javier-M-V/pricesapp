@@ -1,4 +1,4 @@
-package com.jmv.pricesapp.priceinfraestructure;
+package com.jmv.pricesapp.priceinfraestructure.sharedservices;
 
 import com.jmv.pricesapp.priceinfraestructure.persistence.Prices;
 

@@ -1,6 +1,6 @@
 package com.jmv.pricesapp.priceinfraestructure.api;
 
-import com.jmv.pricesapp.priceinfraestructure.PricesService;
+import com.jmv.pricesapp.priceinfraestructure.sharedservices.PricesService;
 import com.jmv.pricesapp.priceinfraestructure.persistence.Prices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;

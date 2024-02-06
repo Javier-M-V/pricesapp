@@ -1,4 +1,4 @@
-package com.jmv.pricesapp.priceinfraestructure;
+package com.jmv.pricesapp.priceinfraestructure.sharedservices;
 
 
 import com.jmv.pricesapp.priceinfraestructure.persistence.Prices;
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service("pricesRetriever")
- public class PricesRetriever implements PricesService{
+ public class PricesRetriever implements PricesService {
 
     private final PricesRepository pricesRepository;
 

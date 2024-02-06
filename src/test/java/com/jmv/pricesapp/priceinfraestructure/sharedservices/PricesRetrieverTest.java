@@ -1,6 +1,5 @@
 package com.jmv.pricesapp.priceinfraestructure.sharedservices;
 
-import com.jmv.pricesapp.priceinfraestructure.PricesRetriever;
 import com.jmv.pricesapp.priceinfraestructure.persistence.Prices;
 import com.jmv.pricesapp.priceinfraestructure.persistence.PricesRepository;
 import org.junit.jupiter.api.Test;

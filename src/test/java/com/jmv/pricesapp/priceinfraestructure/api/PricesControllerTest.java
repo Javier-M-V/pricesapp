@@ -2,7 +2,7 @@ package com.jmv.pricesapp.priceinfraestructure.api;
 
 
 import com.jmv.pricesapp.domain.Price;
-import com.jmv.pricesapp.priceinfraestructure.PricesService;
+import com.jmv.pricesapp.priceinfraestructure.sharedservices.PricesService;
 
 import com.jmv.pricesapp.priceinfraestructure.persistence.Prices;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,8 +12,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import org.springframework.boot.test.context.SpringBootTest;
 
 
 import org.springframework.http.ResponseEntity;
