@@ -43,13 +43,6 @@ public class PricesControllerTest {
 
     private static final LocalDateTime DAY_TEST_END = LocalDateTime.of(1997, Month.AUGUST,29,11,0,0);
 
-    static MockHttpServletRequest request = new MockHttpServletRequest();
-
-    @BeforeEach
-    void before(){
-        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
-    }
-
 
     @Test
     void given_priceNotFoundOnService_controllerReturns_404(){
